@@ -1,0 +1,329 @@
+#	   .___             __  .__      .__                       .___      
+#	 __| _/____ _____ _/  |_|  |__   |  |__   ____ _____     __| _/______
+#	/ __ |/ __ \\__  \\   __\  |  \  |  |  \_/ __ \\__  \   / __ |/  ___/
+#  / /_/ \  ___/ / __ \|  | |   Y  \ |   Y  \  ___/ / __ \_/ /_/ |\___ \ 
+#   \____ |\___  >____  /__| |___|  / |___|  /\___  >____  /\____ /____  >
+#	    \/    \/     \/          \/       \/     \/     \/      \/    \/ 
+#=============================================================================================
+#The code within this file is the creative property of IfritSky.
+#I grant anyone with access to this file with the ability to edit and create something beyond my orginal scope. 
+#As long as the idea itself has been accredited to me firstly in a note in the file (this statement itself or elsewhere as minor or major as you would like),
+#or noted somewhere on the server in use.
+#I would ask, but is not necessary, that if you improve majorly upon on my idea that you sumbit a pull request to my repo at https://bitbucket.org/friskymc/skript, or if any bugs are found. 
+#I hope you enjoy anything I have created and use it to the best of your ability.
+#=============================================================================================
+#https://www.reddit.com/r/MinecraftHeads/comments/1m1s0g/official_heads_made_by_mojang_marc/
+#set last spawned entity's helmet to player head with custom nbt "{display:{Name:""""},SkullOwner:{Id:""%{custommob.player.1}%"",Properties:{textures:[{Value:""%{custommob.nbt.1}%""}]}}}"
+#https://webcache.googleusercontent.com/search?q=cache:k15OcSPaygwJ:https://forums.skunity.com/topic/4438/problem-with-custom-heads-in-1-9/7+&cd=1&hl=en&ct=clnk&gl=us
+
+#Current issues: =Need endermite head Value =Testing needs to occur
+#=============================================================================================
+#Enabled Toggles and Rate Settings
+#=============================================================================================
+options:
+
+#MOBS
+	enabled_bat: true
+	bat_rate: 2.5
+	enabled_chicken: true
+	chicken_rate: 0.5
+	enabled_cow: true
+	cow_rate: 0.5
+	enabled_mooshroom: true
+	mooshroom_rate: 0.5
+	enabled_pig: true
+	pig_rate: 0.5
+	enabled_rabbit: true
+	rabbit_rate: 1.5
+	enabled_squid: true
+	squid_rate: 2.5
+	enabled_sheep: true
+	sheep_rate: 0.5
+	enabled_cavespider: true
+	cavespider_rate: 1.5
+	enabled_enderman: true
+	enderman_rate: 0.5
+	enabled_polarbear: true
+	polarbear_rate: 2.5
+	enabled_spider: true
+	spider_rate: 0.5
+	enabled_zompig: true
+	zompig_rate: 1.5
+	enabled_blaze: true
+	blaze_rate: 2.5
+	enabled_creeper: true
+	creeper_rate: 1.5
+	enabled_endermite: true
+	endermite_rate: 2.5
+	enabled_evoker: true
+	evoker_rate: 2.5
+	enabled_ghast: true
+	ghast_rate: 2.5
+	enabled_guardian: true
+	guardian_rate: 2.5
+	enabled_husk: true
+	husk_rate: 2.5
+	enabled_magma: true
+	magma_rate: 2.5
+	enabled_shulker: true
+	shulker_rate: 2.5
+	enabled_silverfish: true
+	silverfish_rate: 2.5
+	enabled_skeleton: true
+	skeleton_rate: 0.5
+	#enabled_slime: true
+	#slime_rate: 2.5
+	enabled_stray: true
+	stray_rate: 2.5
+	enabled_vex: true
+	vex_rate: 2.5
+	enabled_vindicator: true
+	vindicator_rate: 2.5
+	enabled_witch: true
+	witch_rate: 2.5
+	#enabled_witherskele vanilla
+	#wither_rate vanilla 2.5
+	enabled_zombie: true
+	zombie_rate: 0.5
+	enabled_donkey: true
+	donkey_rate: 2.5
+	enabled_horse: true
+	horse_rate: 1.5
+	enabled_llama: true
+	llama_rate: 2.5
+	enabled_mule: true
+	mule_rate: 2.5
+	enabled_ocelot: true
+	ocelot_rate: 2.5
+	enabled_wolf: true
+	wolf_rate: 1.5
+	enabled_golem: true
+	golem_rate: 2.5
+	enabled_snowman: true
+	snowman_rate: 2.5
+	
+#PLAYERS
+	enabled_player: true
+	player_rate: 2
+	
+#=============================================================================================
+#Set variables for nbt data
+#=============================================================================================	
+on script load:
+	if {headscript} is not set:
+		set {bathead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZmZDgwOGY4MTI3YjRhZDQ1OGQ5ZDJlMTgxYzY5MGFkZjQ4OWE2YWQzMmVlMmFhNGFjZmE2MzQxZmU4NDIifX19"
+		set {chickenhead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTYzODQ2OWE1OTljZWVmNzIwNzUzNzYwMzI0OGE5YWIxMWZmNTkxZmQzNzhiZWE0NzM1YjM0NmE3ZmFlODkzIn19fQ=="
+		set {cowhead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWQ2YzZlZGE5NDJmN2Y1ZjcxYzMxNjFjNzMwNmY0YWVkMzA3ZDgyODk1ZjlkMmIwN2FiNDUyNTcxOGVkYzUifX19"
+		set {mooshroomhead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDBiYzYxYjk3NTdhN2I4M2UwM2NkMjUwN2EyMTU3OTEzYzJjZjAxNmU3YzA5NmE0ZDZjZjFmZTFiOGRiIn19fQ=="
+		set {pighead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjIxNjY4ZWY3Y2I3OWRkOWMyMmNlM2QxZjNmNGNiNmUyNTU5ODkzYjZkZjRhNDY5NTE0ZTY2N2MxNmFhNCJ9fX0="
+		set {rabbithead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWJjYjU5ZjJkOGVlMzE3NTI2ZmRhYjNiOGMyMmVhMzM5ZjQ3YzhiMzNlZmNmNjAzNGI5YWVmYTk3M2Q1ZjgifX19"
+		set {squidhead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMDE0MzNiZTI0MjM2NmFmMTI2ZGE0MzRiODczNWRmMWViNWIzY2IyY2VkZTM5MTQ1OTc0ZTljNDgzNjA3YmFjIn19fQ=="
+		set {sheephead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjMxZjljY2M2YjNlMzJlY2YxM2I4YTExYWMyOWNkMzNkMThjOTVmYzczZGI4YTY2YzVkNjU3Y2NiOGJlNzAifX19"
+		set {cavespiderhead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDE2NDVkZmQ3N2QwOTkyMzEwN2IzNDk2ZTk0ZWViNWMzMDMyOWY5N2VmYzk2ZWQ3NmUyMjZlOTgyMjQifX19"
+		set {endermanhead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2E1OWJiMGE3YTMyOTY1YjNkOTBkOGVhZmE4OTlkMTgzNWY0MjQ1MDllYWRkNGU2YjcwOWFkYTUwYjljZiJ9fX0="
+		set {polarbearhead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDQ2ZDIzZjA0ODQ2MzY5ZmEyYTM3MDJjMTBmNzU5MTAxYWY3YmZlODQxOTk2NjQyOTUzM2NkODFhMTFkMmIifX19"
+		set {spiderhead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2Q1NDE1NDFkYWFmZjUwODk2Y2QyNThiZGJkZDRjZjgwYzNiYTgxNjczNTcyNjA3OGJmZTM5MzkyN2U1N2YxIn19fQ=="
+		set {zompighead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzRlOWM2ZTk4NTgyZmZkOGZmOGZlYjMzMjJjZDE4NDljNDNmYjE2YjE1OGFiYjExY2E3YjQyZWRhNzc0M2ViIn19fQ=="
+		set {blazehead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjc4ZWYyZTRjZjJjNDFhMmQxNGJmZGU5Y2FmZjEwMjE5ZjViMWJmNWIzNWE0OWViNTFjNjQ2Nzg4MmNiNWYwIn19fQ=="
+		#set {creeperhead} VANILLA
+		set {endermitehead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZThjNmNiOGNlYWFkNWEyYWQ1Y2M5YTY3YmNlNmQ1YmRiZjVjYmI3ZTMxMjk1NWNjZjlmMTYyNTA5MzU1YjEifX19"
+		set {evokerhead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTAwZDNmZmYxNmMyZGNhNTliOWM1OGYwOTY1MjVjODY5NzExNjZkYmFlMTMzYjFiMDUwZTVlZTcxNjQ0MyJ9fX0="
+		set {ghasthead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGI2YTcyMTM4ZDY5ZmJiZDJmZWEzZmEyNTFjYWJkODcxNTJlNGYxYzk3ZTVmOTg2YmY2ODU1NzFkYjNjYzAifX19"
+		set {guardianhead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTMyYzI0NTI0YzgyYWIzYjNlNTdjMjA1MmM1MzNmMTNkZDhjMGJlYjhiZGQwNjM2OWJiMjU1NGRhODZjMTIzIn19fQ=="
+		set {huskhead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDY3NGM2M2M4ZGI1ZjRjYTYyOGQ2OWEzYjFmOGEzNmUyOWQ4ZmQ3NzVlMWE2YmRiNmNhYmI0YmU0ZGIxMjEifX19"
+		set {magmahead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzg5NTdkNTAyM2M5MzdjNGM0MWFhMjQxMmQ0MzQxMGJkYTIzY2Y3OWE5ZjZhYjM2Yjc2ZmVmMmQ3YzQyOSJ9fX0="
+		set {shulkerhead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjFkMzUzNGQyMWZlODQ5OTI2MmRlODdhZmZiZWFjNGQyNWZmZGUzNWM4YmRjYTA2OWU2MWUxNzg3ZmYyZiJ9fX0="
+		set {silverfishhead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDUzYTZhZWRiYzllNGEyMjI2NmNkNzBkMmQ0YTI4NTBhN2U0YjU4NjRmYmNiZGRmOTUyYjc0OGZiYWJkYjIifX19"
+		#set {skeletonhead} VANILLA 
+		set {slimehead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTZhZDIwZmMyZDU3OWJlMjUwZDNkYjY1OWM4MzJkYTJiNDc4YTczYTY5OGI3ZWExMGQxOGM5MTYyZTRkOWI1In19fQ=="
+		set {strayhead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzFiNWI3NTI0N2UyZjAzYjk0MWI2ZWQ2OWQyMzY3NzQ4MmFhNThhYWI3NjM0YzJlNGZiMDRmZjU3NDRkYmMifX19"
+		set {vexhead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWU3MzMwYzdkNWNkOGEwYTU1YWI5ZTk1MzIxNTM1YWM3YWUzMGZlODM3YzM3ZWE5ZTUzYmVhN2JhMmRlODZiIn19fQ=="
+		set {vindicatorhead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2RhNTg1ZWJkZGNjNDhmMzA3YmU2YTgzOTE2Zjg3OGVkNGEwMTRlYzNkNGYyODZhMmNmZDk1MzI4MTk2OSJ9fX0="
+		set {witchhead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRlZGJlZTQyYmU0NzJlM2ViNzkxZTdkYmRmYWYxOGM4ZmU1OTNjNjM4YmExMzk2YzllZjY4ZjU1NWNiY2UifX19"
+		#set {witherskelehead} VANILLA 
+		#set {zombiehead} VANILLA 
+		set {donkeyhead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTA0ODZhNzQyZTdkZGEwYmFlNjFjZTJmNTVmYTEzNTI3ZjFjM2IzMzRjNTdjMDM0YmI0Y2YxMzJmYjVmNWYifX19"
+		set {horsehead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjE5MDI4OTgzMDg3MzBjNDc0NzI5OWNiNWE1ZGE5YzI1ODM4YjFkMDU5ZmU0NmZjMzY4OTZmZWU2NjI3MjkifX19" 
+		set {llamahead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWU5OTNiY2FhMGZhMjY2ZmRmMmMyNmZiNWUzMTc1MzRmNTYwZTM2YWRiZDEzMzcwZmZkYjExM2JmMzY0MmQifX19"
+		set {mulehead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTA0ODZhNzQyZTdkZGEwYmFlNjFjZTJmNTVmYTEzNTI3ZjFjM2IzMzRjNTdjMDM0YmI0Y2YxMzJmYjVmNWYifX19"
+		set {ocelothead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTY1N2NkNWMyOTg5ZmY5NzU3MGZlYzRkZGNkYzY5MjZhNjhhMzM5MzI1MGMxYmUxZjBiMTE0YTFkYjEifX19"
+		set {wolfhead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjlkMWQzMTEzZWM0M2FjMjk2MWRkNTlmMjgxNzVmYjQ3MTg4NzNjNmM0NDhkZmNhODcyMjMxN2Q2NyJ9fX0="
+		set {golemhead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODkwOTFkNzllYTBmNTllZjdlZjk0ZDdiYmE2ZTVmMTdmMmY3ZDQ1NzJjNDRmOTBmNzZjNDgxOWE3MTQifX19"
+		set {snowmanhead} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWZkZmQxZjc1MzhjMDQwMjU4YmU3YTkxNDQ2ZGE4OWVkODQ1Y2M1ZWY3MjhlYjVlNjkwNTQzMzc4ZmNmNCJ9fX0="
+		wait 1 second
+		set {headscript} to true
+	
+	#=============================================================================================
+	#DEATH EVENTS
+	#=============================================================================================
+on death:
+	attacker is a player
+	#==============================================
+	#				=====MOBS=====
+	#==============================================
+	if victim is a bat:
+		if {@enabled_bat} is true:
+			chance of {@bat_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Bat""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{bathead}%""}]}}}" at location of the victim
+	if victim is a chicken:
+		if {@enabled_chicken} is true:
+			chance of {@chicken_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Chicken""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{chickenhead}%""}]}}}" at location of the victim
+	if victim is a cow:
+		if {@enabled_cow} is true:
+			chance of {@cow_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Cow""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{cowhead}%""}]}}}" at location of the victim
+	if victim is a mooshroom:
+		if {@enabled_mooshroom} is true:
+			chance of {@mooshroom_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Mooshroom""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{mooshroomhead}%""}]}}}" at location of the victim
+	if victim is a pig:
+		if {@enabled_pig} is true:
+			chance of {@pig_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Pig""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{pighead}%""}]}}}" at location of the victim
+	if victim is a rabbit:
+		if {@enabled_rabbit} is true:
+			chance of {@rabbit_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Rabbit""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{rabbithead}%""}]}}}" at location of the victim
+	if victim is a squid:
+		if {@enabled_squid} is true:
+			chance of {@squid_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Squid""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{squidhead}%""}]}}}" at location of the victim
+	if victim is a sheep:
+		if {@enabled_sheep} is true:
+			chance of {@sheep_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Sheep""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{sheephead}%""}]}}}" at location of the victim
+	if victim is a cave spider:
+		if {@enabled_cavespider} is true:
+			chance of {@cavespider_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Cave Spider""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{cavespiderhead}%""}]}}}" at location of the victim
+	if victim is a enderman:
+		if {@enabled_enderman} is true:
+			chance of {@enderman_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Enderman""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{endermanhead}%""}]}}}" at location of the victim
+	if victim is a polar bear:
+		if {@enabled_polarbear} is true:
+			chance of {@polarbear_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Polar Bear""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{polarbearhead}%""}]}}}" at location of the victim
+	if victim is a spider:
+		if {@enabled_spider} is true:
+			chance of {@spider_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Spider""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{spiderhead}%""}]}}}" at location of the victim
+	if victim is a zombie pigmen:
+		if {@enabled_zompig} is true:
+			chance of {@zompig_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Zombie Pigmen""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{zompighead}%""}]}}}" at location of the victim
+	if victim is a blaze:
+		if {@enabled_blaze} is true:
+			chance of {@blaze_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Blaze""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{blazehead}%""}]}}}" at location of the victim
+	if victim is a creeper:
+		if {@enabled_creeper} is true:
+			chance of {@creeper_rate}%:
+				drop 1 creeper head at location of the victim
+	if victim is a endermite:
+		if {@enabled_endermite} is true:
+			chance of {@endermite_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Endermite""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{endermitehead}%""}]}}}" at location of the victim
+	if victim is a evoker:
+		if {@enabled_evoker} is true:
+			chance of {@evoker_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Evoker""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{evokerhead}%""}]}}}" at location of the victim
+	if victim is a ghast:
+		if {@enabled_ghast} is true:
+			chance of {@ghast_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Ghast""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{ghasthead}%""}]}}}" at location of the victim
+	if victim is a guardian:
+		if {@enabled_guardian} is true:
+			chance of {@guardian_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Guardian""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{guardianhead}%""}]}}}" at location of the victim
+	if victim is a husk:
+		if {@enabled_husk} is true:
+			chance of {@husk_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Husk""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{huskhead}%""}]}}}" at location of the victim
+	if victim is a magma cube:
+		if slime size of victim is 1:
+		#==issue== idk if it needs to be 0 or 1 needs testing
+			if {@enabled_magma} is true:
+				chance of {@magma_rate}%:
+					drop a player head with custom nbt "{display:{Name:""Magma Cube""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{magmahead}%""}]}}}" at location of the victim
+	if victim is a shulker:
+		if {@enabled_shulker} is true:
+			chance of {@shulker_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Shulker""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{shulkerhead}%""}]}}}" at location of the victim
+	if victim is a silverfish:
+		if {@enabled_silverfish} is true:
+			chance of {@silverfish_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Silverfish""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{silverfishhead}%""}]}}}" at location of the victim
+	if victim is a skeleton:
+		if {@enabled_skeleton} is true:
+			chance of {@skeleton_rate}%:
+				drop 1 skeleton head at location of the victim
+	#if victim is a slime:
+	#	if slime size of victim is 1:
+	#		if {@enabled_slime} is true:
+	#			send "We are getting there" to attacker
+	#			chance of {@slime_rate}%:
+#SLIME
+	#				drop a player head with custom nbt "{display:{Name:""Slime""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{slimehead}%""}]}}}" at location of the victim
+					
+	if victim is a stray:
+		if {@enabled_stray} is true:
+			chance of {@stray_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Stray""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{strayhead}%""}]}}}" at location of the victim
+	if victim is a vex:
+		if {@enabled_vex} is true:
+			chance of {@vex_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Vex""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{vexhead}%""}]}}}" at location of the victim
+	if victim is a vindicator:
+		if {@enabled_vindicator} is true:
+			chance of {@vindicator_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Vindicator""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{vindicatorhead}%""}]}}}" at location of the victim
+	if victim is a witch:
+		if {@enabled_witch} is true:
+			chance of {@witch_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Witch""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{witchhead}%""}]}}}" at location of the victim
+	#if victim is a wither skeleton:  VANILLA
+	if victim is a zombie:
+		if {@enabled_zombie} is true:
+			chance of {@zombie_rate}%:
+				drop 1 zombie head at location of the victim
+	if victim is a donkey:
+		if {@enabled_donkey} is true:
+			chance of {@donkey_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Donkey""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{donkeyhead}%""}]}}}" at location of the victim
+	if victim is a horse:
+		if {@enabled_horse} is true:
+			chance of {@horse_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Horse""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{horsehead}%""}]}}}" at location of the victim
+	if victim is a llama:
+		if {@enabled_llama} is true:
+			chance of {@llama_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Llama""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{llamahead}%""}]}}}" at location of the victim
+	if victim is a mule:
+		if {@enabled_mule} is true:
+			chance of {@mule_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Mule""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{mulehead}%""}]}}}" at location of the victim
+	if victim is a ocelot:
+		if {@enabled_ocelot} is true:
+			chance of {@ocelot_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Ocelot""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{ocelothead}%""}]}}}" at location of the victim
+	if victim is a wolf:
+		if {@enabled_wolf} is true:
+			chance of {@wolf_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Wolf""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{wolfhead}%""}]}}}" at location of the victim
+	if victim is a iron golem:
+		if {@enabled_golem} is true:
+			chance of {@golem_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Iron Golem""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{golemhead}%""}]}}}" at location of the victim
+	if victim is a snowman:
+		if {@enabled_snowman} is true:
+			chance of {@snowman_rate}%:
+				drop a player head with custom nbt "{display:{Name:""Snowman""},SkullOwner:{Id:""cf956fcc-ad9d-48e0-9986-2231cc9c3545"",Properties:{textures:[{Value:""%{snowmanhead}%""}]}}}" at location of the victim
+	#==============================================
+	#				=====PLAYERS=====
+	#==============================================
+	if victim is a player:
+		if {@enabled_player} is true:
+			chance of {@player_rate}%:
+				drop victim's skull at location of victim
